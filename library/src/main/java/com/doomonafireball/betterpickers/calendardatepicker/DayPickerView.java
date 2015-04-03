@@ -90,6 +90,8 @@ public abstract class DayPickerView extends ListView implements OnScrollListener
 
     private CalendarDatePickerController mController;
     private boolean mPerformingScroll;
+    private boolean mThemeDark = false;
+
 
     public DayPickerView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -100,6 +102,17 @@ public abstract class DayPickerView extends ListView implements OnScrollListener
         super(context);
         init(context);
         setController(controller);
+    }
+
+    public boolean isThemeDark() {
+        return mThemeDark;
+    }
+
+    public void setThemeDark(boolean ThemeDark) {
+        this.mThemeDark = ThemeDark;
+        if (mAdapter != null) {
+            mAdapter.setThemeDark(mThemeDark);
+        }
     }
 
     public void setController(CalendarDatePickerController controller) {
@@ -132,6 +145,7 @@ public abstract class DayPickerView extends ListView implements OnScrollListener
         } else {
             mAdapter.setSelectedDay(mSelectedDay);
         }
+        mAdapter.setThemeDark(mThemeDark);
         // refresh the view with the new parameters
         setAdapter(mAdapter);
     }
@@ -167,7 +181,7 @@ public abstract class DayPickerView extends ListView implements OnScrollListener
      * the first of the month containing the time is at the top of the view. If the new time is already in view the list
      * will not be scrolled unless forceScroll is true. This time may optionally be highlighted as selected as well.
      *
-     * @param time The time to move to
+     * @param day The time to move to
      * @param animate Whether to scroll to the given time or just redraw at the new location
      * @param setSelected Whether to set the given time as selected
      * @param forceScroll Whether to recenter even if the time is already visible
